@@ -1,0 +1,75 @@
+<ion-header>
+    <ion-toolbar>
+
+        <!-- Botão do menu -->
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+
+        <ion-title>Dadas do Usuário</ion-title>
+
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <!-- Se usário não existe -->
+    <ion-list *ngIf="noUser">
+        <ion-item color="danger">
+            <ion-label class="ion-text-center">Usuário não foi encontrado!</ion-label>
+        </ion-item>
+    </ion-list>
+
+    <!-- Carregando dados ainda -->
+    <div class="ion-text-center ion-margin ion-padding" *ngIf="!data && !noUser">
+        <ion-spinner name="lines"></ion-spinner>
+    </div>
+
+    <!-- Usuário encontrado -->
+    <div *ngIf="data">
+
+        <ion-card class="ion-margin">
+
+            <ion-img [src]="data.avatar" [alt]="data.name"></ion-img>
+
+            <ion-card-header>
+                <ion-card-title>{{data.name}}</ion-card-title>
+                <ion-card-subtitle>{{data.email}}</ion-card-subtitle>
+            </ion-card-header>
+
+            <ion-card-content>
+
+                <p>Cadastrado em: {{data.date | date: 'dd/MM/yyyy, HH:mm'}}.</p>
+                <p>
+                    Status:
+                    <ion-note *ngIf="data.status == 1" color="secondary">Ativo</ion-note>
+                    <ion-note *ngIf="data.status == 0" color="danger">Inativo</ion-note>
+                </p>
+
+                <ion-grid class="ion-margin-top ion-no-padding">
+
+                    <ion-row>
+
+                        <ion-col>
+                            <ion-button color="success" (click)="editUser(data.id)">
+                                <ion-icon name="create" slot="start"></ion-icon> Editar
+                            </ion-button>
+                        </ion-col>
+
+                        <ion-col class="ion-text-right">
+                            <ion-button color="warning" (click)="delUser(data.id, data.name)">
+                                <ion-icon name="trash" slot="start"></ion-icon> Apagar
+                            </ion-button>
+                        </ion-col>
+
+                    </ion-row>
+
+                </ion-grid>
+
+            </ion-card-content>
+
+        </ion-card>
+
+    </div>
+
+</ion-content>
